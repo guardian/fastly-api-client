@@ -1,10 +1,10 @@
 name := "fastlyapiclient"
 
-organization := "guardian"
+organization := "com.gu"
 
-version := "0.2.2"
+version := "0.2.3"
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.10.0"
 
 crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
 
