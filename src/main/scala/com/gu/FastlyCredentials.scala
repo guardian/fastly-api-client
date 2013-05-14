@@ -1,4 +1,4 @@
-package gu
+package com.gu
 
 import scala.Predef._
 import scala.io._

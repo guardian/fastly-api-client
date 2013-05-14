@@ -1,4 +1,4 @@
-package gu
+package com.gu
 
 import com.ning.http.client._
 import java.util.Date

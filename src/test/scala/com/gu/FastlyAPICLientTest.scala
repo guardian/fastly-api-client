@@ -1,4 +1,4 @@
-package gu
+package com.gu
 
 import org.scalatest.FeatureSpec
 import org.scalatest.BeforeAndAfter
