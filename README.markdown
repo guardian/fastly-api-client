@@ -4,9 +4,9 @@ An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api)
 Dependencies
 ------------
 
-    resolvers += "moschops releases" at "http://moschops.github.com/mvn/releases"
+    resolvers += "Guardian Github Releases" at "http://moschops.github.com/mvn/releases"
 
-    libraryDependencies += "moschops" %% "fastlyapiclient" % "0.2.1"
+    libraryDependencies += "com.gu" %% "fastlyapiclient" % "0.2.2"
 
 
 Configuring the client

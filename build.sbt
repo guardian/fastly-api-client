@@ -10,8 +10,8 @@ crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
 
 libraryDependencies ++= Seq(
     "com.ning" % "async-http-client" % "1.7.11",
-    "org.scalatest" %% "scalatest" % "1.7.1" % "test",
-    "net.liftweb" %% "lift-json" % "2.4" % "test",
+    "org.scalatest" %% "scalatest" % "1.9.1" % "test",
+    "net.liftweb" %% "lift-json" % "2.5-RC6" % "test",
     "joda-time" % "joda-time" % "2.0" % "test",
     "org.joda" % "joda-convert" % "1.2" % "test"
     )
