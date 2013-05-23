@@ -60,4 +60,4 @@ To purge
 
 To retrieve datacenter stats
 
-    fastlyApiClient.datacenterStats(startDatetime, endDatetime)
+    fastlyApiClient.stats(startDatetime, endDatetime)
