@@ -3,7 +3,7 @@ package com.gu
 import com.ning.http.client._
 import java.util.Date
 
-case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None) {
+case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
   private val fastlyAPIURL = "https://api.fastly.com"
   private val commonHeaders = Map("X-Fastly-Key" -> apiKey, "Accept" -> "application/json")
@@ -159,6 +159,11 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
         case _ => client.prepareGet(apiUrl)
       }
       build(request, headers, parameters)
+
+      proxyServer.map {
+        ps => request.setProxyServer(ps)
+      }
+
       if (handler.isDefined) {
         request.execute(handler.get)
       } else {

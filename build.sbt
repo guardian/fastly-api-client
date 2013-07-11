@@ -2,7 +2,7 @@ name := "fastlyapiclient"
 
 organization := "com.gu"
 
-version := "0.2.5"
+version := "0.2.6"
 
 scalaVersion := "2.10.0"
 
