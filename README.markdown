@@ -1,63 +1,37 @@
 An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api)
 =============================================================================
 
+Used to update/deploy/query Fastly and query the stats api.
+
 Dependencies
 ------------
 
     resolvers += "Guardian Github Releases" at "http://guardian.github.com/maven/repo-releases"
 
-    libraryDependencies += "com.gu" %% "fastlyapiclient" % "0.2.4"
+    libraryDependencies += "com.gu" %% "fastlyapiclient" % "0.3.0"
 
 
 Configuring the client
 ----------------------
 
-You can either create a new instance yourself,
+Instantiate the client
 
-    val fastlyApiClient = FastlyAPIClient("my-fastly-api-key", "my-service-id", Some(asyncHttpClientConfig))
+    val fastlyApiClient = FastlyAPIClient("my-fastly-api-key", "my-service-id")
+    val fastlyApiClient = FastlyAPIClient("my-fastly-api-key", "my-service-id", config = Some(asyncHttpClientConfig), proxy = Some(proxyToAccessTheWorld))
 
-or use the FastlyCredentials trait. If you use this trait, you'll need to create a file in either (in order of lookup)
-
-    ~/.fastlyapiclientcconfig
-    /etc/fastly/fastlyapiclientcconfig
-
-with the following values:
-
-    apiKey=[your API key]
-    serviceId=[your service id]
-
-If you wish to override the default [AsyncHttpClientConfig](http://asynchttpclient.github.io/async-http-client/apidocs/com/ning/http/client/AsyncHttpClientConfig.Builder.html) and/or the location of the credentials file,
-
-    fastlyCredentialLocations = Seq(new File("some-other-credentials-file"))
-    asyncHttpClientConfig = new AsyncHttpClientConfig.Builder().set....build()
-
-Set these variables *before* you call any methods if you wish to override the defaults.
 
 Examples
 --------
+
 All methods return a ListenableFuture[Response] call *future.get* if you want to be synchronous and wait for the response.
 Or, to be asynchronous, pass an optional AsyncHandler to any method, e.g.
 
     def purge(url: String, ..., handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {...
 
-To clone a previous version
 
-    fastlyApiClient.versionClone(versionToClone)
-    // you can get the newly cloned version number from the response body, or...
-    fastlyApiClient.latestVersionNumber
+Datacenter stats:
 
-To overwrite a VCL file
+    fastlyApiClient.stats(startDatetime, endDatetime, By.minute)
+    fastlyApiClient.stats(startDatetime, endDatetime, By.minute, regio = Region.usa)
+    fastlyApiClient.stats(startDatetime, endDatetime, By.minute, region = Region.usa, handler = myHandler)
 
-    fastlyApiClient.vclUpdate(Map(name -> vcl), version)
-
-To deploy/activate a version
-
-    fastlyApiClient.versionActivate(version)
-
-To purge
-
-    fastlyApiClient.purge(someUrl)
-
-To retrieve datacenter stats
-
-    fastlyApiClient.stats(startDatetime, endDatetime)
