@@ -147,8 +147,6 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
         ps => request.setProxyServer(ps)
       }
 
-      println(request.build().getRawUrl)
-
       if (handler.isDefined) {
         request.execute(handler.get)
       } else {
