@@ -97,6 +97,11 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
   }
 
+  def services(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val url = "%s/service".format(fastlyAPIURL)
+    AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
+  }
+
   def statsUsage(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
     val apiUrl = "%s/stats/usage".format(fastlyAPIURL)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)

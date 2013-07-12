@@ -32,7 +32,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
         to = DateTime.now,
         by = By.minute
       ).get
-      println(response.getResponseBody)
+//      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
 
@@ -41,7 +41,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
         from = DateTime.now.minusMinutes(5),
         to = DateTime.now,
         by = By.minute,
-        region = Region.europe
+        region = Region.all
       ).get
       println(response.getResponseBody)
       assert(response.getStatusCode === 200)
@@ -49,8 +49,17 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
 
     scenario("stats region list") {
       val response = client.statsRegionList().get
-      println(response.getResponseBody)
+//      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
+  }
+
+  feature("Servcie") {
+    scenario("list") {
+      val response = client.services().get
+//            println(response.getResponseBody)
+      assert(response.getStatusCode === 200)
+    }
+
   }
 }
