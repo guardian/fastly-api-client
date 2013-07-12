@@ -1,10 +1,30 @@
-/**
- * Created with IntelliJ IDEA.
- * User: mobrien
- * Date: 12/07/2013
- * Time: 14:02
- * To change this template use File | Settings | File Templates.
- */
+import java.io.File
+import scala.io.Source
+
 trait FastlyCredentials {
+
+  final var apiKey: String = _
+  final var serviceId: String = _
+
+  val credentials = {
+    val file = Source.fromFile(
+      new File(
+        System.getProperty("user.home") + "/.fastlyapiclientcconfig"),
+        "utf-8")
+
+    file.getLines.foreach (
+      line => {
+        val propertyRegex = """^(\S+)=(\S+)$""".r
+        line match {
+          case propertyRegex(key, value) => {
+            if (key.trim.equals("apiKey")) apiKey = value.trim
+            if (key.trim.equals("serviceId")) serviceId = value.trim
+          }
+          case _ =>
+        }
+      })
+
+    if(apiKey == null || serviceId == null) throw new Exception("error parsing ~/.fastlyapiclientcconfig, apiKey=%s serviceId=%s".format(apiKey, serviceId))
+  }
 
 }

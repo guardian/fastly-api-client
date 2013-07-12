@@ -1,8 +1,9 @@
 package com.gu
 
 import com.ning.http.client._
-import java.util.Date
+import org.joda.time.DateTime
 
+// http://www.fastly.com/docs/stats
 // TODO: can I set the proxyServer in the config instead, and thus delete it?
 case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
@@ -96,9 +97,20 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
   }
 
-  def stats(start: Date, end: Date, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    def toUnixTimeStamp(date: Date): Long = date.getTime / 1000L
-    val apiUrl = "https://app.fastly.com/service/%s/stats/summary?fields=all&start_time=%d&end_time=%d".format(serviceId, toUnixTimeStamp(start), toUnixTimeStamp(end))
+  def statsUsage(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/usage".format(fastlyAPIURL)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
+  }
+
+  def stats(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    def millis(date: DateTime): String = (date.getMillis / 1000).toString
+    val apiUrl = "%s/stats".format(fastlyAPIURL)
+    val params = Map[String, String]("from" -> millis(from), "to" -> millis(to), "by" -> by.toString, "region" -> region.toString)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsRegionList(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/regions".format(fastlyAPIURL)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
@@ -114,10 +126,10 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     private lazy val client = new AsyncHttpClient(config.getOrElse(defaultConfig))
 
     def execute(apiUrl: String,
-                        method: String = GET,
-                        headers: Map[String, String] = Map(),
-                        parameters: Map[String, String] = Map(),
-                        handler: Option[AsyncHandler[Response]]): ListenableFuture[Response] = {
+                method: String = GET,
+                headers: Map[String, String] = Map(),
+                parameters: Map[String, String] = Map(),
+                handler: Option[AsyncHandler[Response]]): ListenableFuture[Response] = {
       val request = method match {
         case POST => client.preparePost(apiUrl)
         case PUT => client.preparePut(apiUrl)
@@ -129,6 +141,8 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
       proxyServer.map {
         ps => request.setProxyServer(ps)
       }
+
+      println(request.build().getRawUrl)
 
       if (handler.isDefined) {
         request.execute(handler.get)
@@ -156,10 +170,23 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
       }
 
       request.setHeaders(headers)
-      request.setParameters(parameters)
+
+      if (request.build().getMethod == GET) {
+        request.setQueryParameters(parameters)
+      } else {
+        request.setParameters(parameters)
+      }
 
       if (headers.get("Host").isDefined) request.setVirtualHost(headers.get("Host").get)
     }
   }
+}
 
+// constants for the stats API
+object By extends Enumeration {
+  val minute, hour, day = Value
+}
+
+object Region extends Enumeration {
+  val all, usa, europe, ausnz, apac = Value
 }
