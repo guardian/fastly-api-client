@@ -104,15 +104,14 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
 
   private object AsyncHttpExecutor {
 
-    private lazy val client = {
-      val defaultConfig = new AsyncHttpClientConfig.Builder()
-        .setAllowPoolingConnection(true)
-        .setMaximumConnectionsTotal(50)
-        .setMaxRequestRetry(3)
-        .setRequestTimeoutInMs(20000)
-        .build()
-      new AsyncHttpClient(config.getOrElse(defaultConfig))
-    }
+    private lazy val defaultConfig = new AsyncHttpClientConfig.Builder()
+      .setAllowPoolingConnection(true)
+      .setMaximumConnectionsTotal(50)
+      .setMaxRequestRetry(3)
+      .setRequestTimeoutInMs(20000)
+      .build()
+
+    private lazy val client = new AsyncHttpClient(config.getOrElse(defaultConfig))
 
     def execute(apiUrl: String,
                         method: String = GET,
