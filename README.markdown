@@ -1,5 +1,5 @@
 An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api)
-=============================================================================
+===============================================================================
 
 Used to update/deploy/query Fastly and query their stats API.
 
@@ -39,4 +39,3 @@ Datacenter stats:
     fastlyApiClient.stats(startDatetime, endDatetime, By.minute)
     fastlyApiClient.stats(startDatetime, endDatetime, By.minute, region = Region.usa)
     fastlyApiClient.stats(startDatetime, endDatetime, By.minute, region = Region.usa, handler = myHandler)
-
