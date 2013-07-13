@@ -3,8 +3,8 @@ package com.gu
 import com.ning.http.client._
 import org.joda.time.DateTime
 
+// http://www.fastly.com/docs/api
 // http://www.fastly.com/docs/stats
-// TODO: can I set the proxyServer in the config instead, and thus delete it?
 case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
   private val fastlyAPIURL = "https://api.fastly.com"
@@ -16,9 +16,9 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
   private val DELETE = "DELETE"
 
   def vclUpload(vcl: String, id: String, name: String, version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
     AsyncHttpExecutor.execute(
-      url,
+      apiUrl,
       POST,
       headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
       parameters = Map("content" -> vcl, "name" -> name, "id" -> id),
@@ -29,9 +29,9 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
   def vclUpdate(vcl: Map[String, String], version: Int, handler: Option[AsyncHandler[Response]] = None): List[ListenableFuture[Response]] = {
     vcl.map({
       case (name, file) => {
-        val url = "%s/service/%s/version/%d/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
+        val apiUrl = "%s/service/%s/version/%d/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
         AsyncHttpExecutor.execute(
-          url,
+          apiUrl,
           PUT,
           headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
           parameters = Map("content" -> file, "name" -> name),
@@ -42,64 +42,64 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
   }
 
   def purge(url: String, extraHeaders: Map[String, String] = Map(), handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val clearCacheUrl = String.format("https://app.fastly.com/purge/%s", url.stripPrefix("http://"))
-    AsyncHttpExecutor.execute(clearCacheUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders, handler = handler)
+    val apiUrl = "%s/purge/%s".format(fastlyAPIURL, url.stripPrefix("http://").stripPrefix("https://"))
+    AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders, handler = handler)
   }
 
   def purgeStatus(purgeId: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = fastlyAPIURL + "/purge"
-    AsyncHttpExecutor.execute(url, headers = commonHeaders ++ Map("Accept" -> "*/*"), parameters = Map("id" -> purgeId), handler = handler)
+    val apiUrl = "%s/purge".format(fastlyAPIURL)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders ++ Map("Accept" -> "*/*"), parameters = Map("id" -> purgeId), handler = handler)
   }
 
   def versions(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
-    AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
   def versionClone(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/clone".format(fastlyAPIURL, serviceId, version)
-    AsyncHttpExecutor.execute(url, PUT, headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"), handler = handler)
+    val apiUrl = "%s/service/%s/version/%d/clone".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"), handler = handler)
   }
 
   def versionActivate(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/activate".format(fastlyAPIURL, serviceId, version)
-    AsyncHttpExecutor.execute(url, PUT, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version/%d/activate".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders, handler = handler)
   }
 
   def versionCreate(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
-    AsyncHttpExecutor.execute(url, PUT, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
+    AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders, handler = handler)
   }
 
   def vclSetAsMain(version: Int, name: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/vcl/%s/main".format(fastlyAPIURL, serviceId, version, name)
-    AsyncHttpExecutor.execute(url, PUT, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version/%d/vcl/%s/main".format(fastlyAPIURL, serviceId, version, name)
+    AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders, handler = handler)
   }
 
   def vclList(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
-    AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
   def vclDelete(version: Int, name: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%s/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
-    AsyncHttpExecutor.execute(url, DELETE, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version/%s/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
+    AsyncHttpExecutor.execute(apiUrl, DELETE, headers = commonHeaders, handler = handler)
   }
 
   def backendCreate(version: Int, id: String, address: String, port: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
     val params = Map("ipv4" -> address, "version" -> version.toString, "id" -> id, "port" -> port.toString, "service" -> serviceId)
-    AsyncHttpExecutor.execute(url, POST, headers = commonHeaders, parameters = params, handler = handler)
+    AsyncHttpExecutor.execute(apiUrl, POST, headers = commonHeaders, parameters = params, handler = handler)
   }
 
   def backend(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
-    AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
   def services(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val url = "%s/service".format(fastlyAPIURL)
-    AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
+    val apiUrl = "%s/service".format(fastlyAPIURL)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
   def stats(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
