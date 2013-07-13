@@ -19,7 +19,7 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     val url = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
     AsyncHttpExecutor.execute(
       url,
-      "POST",
+      POST,
       headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
       parameters = Map("content" -> vcl, "name" -> name, "id" -> id),
       handler = handler
@@ -32,7 +32,7 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
         val url = "%s/service/%s/version/%d/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
         AsyncHttpExecutor.execute(
           url,
-          "PUT",
+          PUT,
           headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
           parameters = Map("content" -> file, "name" -> name),
           handler = handler
@@ -102,21 +102,56 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(url, headers = commonHeaders, handler = handler)
   }
 
-  def statsUsage(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    val apiUrl = "%s/stats/usage".format(fastlyAPIURL)
-    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
-  }
-
   def stats(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
-    def millis(date: DateTime): String = (date.getMillis / 1000).toString
     val apiUrl = "%s/stats".format(fastlyAPIURL)
-    val params = Map[String, String]("from" -> millis(from), "to" -> millis(to), "by" -> by.toString, "region" -> region.toString)
+    val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
   }
 
-  def statsRegionList(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+  def statsWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, field: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/field/%s".format(fastlyAPIURL, field)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsAggregate(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/aggregate".format(fastlyAPIURL)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsForService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/service/%s".format(fastlyAPIURL, serviceId)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsForServiceWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String, field: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/service/%s/field/%s".format(fastlyAPIURL, serviceId, field)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsUsage(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/usage".format(fastlyAPIURL)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsUsageGroupedByService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/stats/usage_by_service".format(fastlyAPIURL)
+    val params = statsParams(from, to, by, region)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params, handler = handler)
+  }
+
+  def statsRegions(handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
     val apiUrl = "%s/stats/regions".format(fastlyAPIURL)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
+  }
+
+  private def statsParams(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Map[String, String] = {
+    def millis(date: DateTime): String = (date.getMillis / 1000).toString
+    Map[String, String]("from" -> millis(from), "to" -> millis(to), "by" -> by.toString, "region" -> region.toString)
   }
 
   private object AsyncHttpExecutor {
@@ -183,6 +218,7 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
       if (headers.get("Host").isDefined) request.setVirtualHost(headers.get("Host").get)
     }
   }
+
 }
 
 // constants for the stats API

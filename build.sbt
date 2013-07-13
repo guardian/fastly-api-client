@@ -9,7 +9,7 @@ scalaVersion := "2.10.2"
 crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
 
 libraryDependencies ++= Seq(
-    "com.ning" % "async-http-client" % "1.7.11",
+    "com.ning" % "async-http-client" % "1.7.16",
     "joda-time" % "joda-time" % "2.0",
     "org.joda" % "joda-convert" % "1.2",
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
