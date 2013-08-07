@@ -15,7 +15,7 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
   private val PUT = "PUT"
   private val DELETE = "DELETE"
 
-  def vclUpload(vcl: String, id: String, name: String, version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+  def vclUpload(version: Int, vcl: String, id: String, name: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
     val apiUrl = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
     AsyncHttpExecutor.execute(
       apiUrl,
@@ -26,7 +26,7 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     )
   }
 
-  def vclUpdate(vcl: Map[String, String], version: Int, handler: Option[AsyncHandler[Response]] = None): List[ListenableFuture[Response]] = {
+  def vclUpdate(version: Int, vcl: Map[String, String], handler: Option[AsyncHandler[Response]] = None): List[ListenableFuture[Response]] = {
     vcl.map({
       case (name, file) => {
         val apiUrl = "%s/service/%s/version/%d/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
@@ -71,6 +71,11 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders, handler = handler)
   }
 
+  def versionValidate(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/service/%s/version/%s/validate".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
+  }
+
   def vclSetAsMain(version: Int, name: String, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
     val apiUrl = "%s/service/%s/version/%d/vcl/%s/main".format(fastlyAPIURL, serviceId, version, name)
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders, handler = handler)
@@ -94,6 +99,11 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
 
   def backend(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
     val apiUrl = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
+    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
+  }
+
+  def backendCheckAll(version: Int, handler: Option[AsyncHandler[Response]] = None): ListenableFuture[Response] = {
+    val apiUrl = "%s/service/%s/version/%d/backend/check_all".format(fastlyAPIURL, serviceId, version)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, handler = handler)
   }
 
@@ -154,6 +164,8 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
     Map[String, String]("from" -> millis(from), "to" -> millis(to), "by" -> by.toString, "region" -> region.toString)
   }
 
+  def closeConnectionPool = AsyncHttpExecutor.close
+
   private object AsyncHttpExecutor {
 
     private lazy val defaultConfig = new AsyncHttpClientConfig.Builder()
@@ -164,6 +176,8 @@ case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[Asy
       .build()
 
     private lazy val client = new AsyncHttpClient(config.getOrElse(defaultConfig))
+
+    def close = client.close()
 
     def execute(apiUrl: String,
                 method: String = GET,

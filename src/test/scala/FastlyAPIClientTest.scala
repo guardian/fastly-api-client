@@ -1,5 +1,6 @@
 import com.gu.{By, Region, FastlyAPIClient}
 
+import java.io.File
 import org.joda.time.DateTime
 import org.scalatest.FeatureSpec
 import org.scalatest.matchers._
@@ -9,7 +10,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
 
   val client = FastlyAPIClient(apiKey, serviceId)
 
-  feature("Stats") {
+  feature("stats") {
 
     scenario("stats") {
       val response = client.stats(
@@ -109,6 +110,6 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
 //            println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
-
   }
+
 }
