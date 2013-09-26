@@ -1,4 +1,4 @@
-name := "fastlyapiclient"
+name := "fastly-api-client"
 
 organization := "com.gu"
 
