@@ -28,7 +28,7 @@ Or define your own AsyncHttpClientConfig
 
 Set a proxy if needed,
 
-    val client = FastlyAPIClient("my-fastly-api-key", "my-service-id", config = Some(asyncHttpClientConfig), proxy = Some(proxyToAccessTheWorld))
+    val client = FastlyAPIClient("my-fastly-api-key", "my-service-id", proxy = Some(proxyToAccessTheWorld))
 
 Asynchronous calls
 ------------------
