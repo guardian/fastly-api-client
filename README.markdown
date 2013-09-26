@@ -7,7 +7,7 @@ An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api) 
 
 [http://www.fastly.com/docs/stats](http://www.fastly.com/docs/stats)
 
-[Hosted on maven central](http://search.maven.org/#browse|948553587)
+[Released to maven central](http://search.maven.org/#browse|948553587)
 
 SBT
 ---
