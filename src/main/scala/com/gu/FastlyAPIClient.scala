@@ -3,6 +3,7 @@ package com.gu
 import com.ning.http.client._
 import org.joda.time.DateTime
 import java.util.concurrent.Future
+import scala.language.implicitConversions
 
 // http://www.fastly.com/docs/api
 // http://www.fastly.com/docs/stats

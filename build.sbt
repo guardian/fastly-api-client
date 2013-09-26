@@ -13,6 +13,8 @@ libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
 
+scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfixOps")
+
 publishMavenStyle := true
 
 publishTo in ThisBuild <<= version { (v: String) =>
