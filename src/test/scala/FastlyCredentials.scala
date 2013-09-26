@@ -9,7 +9,7 @@ trait FastlyCredentials {
   val credentials = {
     val file = Source.fromFile(
       new File(
-        System.getProperty("user.home") + "/.fastlyapiclientcconfig"),
+        System.getProperty("user.home") + "/.fastlyapiclientcconfigbeta"),
         "utf-8")
 
     file.getLines.foreach (

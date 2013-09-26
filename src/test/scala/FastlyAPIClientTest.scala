@@ -106,7 +106,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
 
   feature("Servcie") {
     scenario("list") {
-      val response = client.services().get
+      val response = client.serviceList().get
 //            println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
