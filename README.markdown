@@ -42,7 +42,7 @@ Or, to be asynchronous, pass an optional AsyncHandler to any method e.g.
 
     client.purge(url, handler = myHandler)
 
-This client uses the [HTTP Asyc Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating handlers/configuring the client config.
+This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating handlers/configuring the client config.
 
 Examples
 ========
