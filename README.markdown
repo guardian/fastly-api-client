@@ -18,11 +18,11 @@ SBT
 Configuring the client
 ----------------------
 
-Use the default AsyncHttpClient,
+Use the default AsyncHttpClientConfig
 
     val client = FastlyAPIClient("my-fastly-api-key", "my-service-id")
 
-Or define your own AsyncHttpClient
+Or define your own AsyncHttpClientConfig
 
     val client = FastlyAPIClient("my-fastly-api-key", "my-service-id", config = Some(asyncHttpClientConfig))
 
