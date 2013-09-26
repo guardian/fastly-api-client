@@ -61,7 +61,7 @@ Deploying
     client.vclUpload(...) // upload you new VCL files
     client.vclSetAsMain(...) // define the main VCL file
     client.versionValidate(...) // validate the cloned version
-    client.versionActivate(...) // active the cloned version
+    client.versionActivate(...) // activate the cloned version
 
 Datacenter stats
 ----------------
