@@ -27,12 +27,12 @@ Examples
 All methods return a Future[Response] call *future.get* if you want to be synchronous and wait for the response.
 Or, to be asynchronous, pass an optional AsyncHandler to any method, e.g.
 
-    val future = purge(url, myHandler)
+    val future = client.purge(url, myHandler)
 
 This client uses the [HTTP Asyc Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating handlers/configuring the client config.
 
 Datacenter stats:
 
-    val future = fastlyApiClient.stats(startDatetime, endDatetime, By.minute)
-    val future = fastlyApiClient.stats(startDatetime, endDatetime, By.minute, region = Region.usa)
-    val future = fastlyApiClient.stats(startDatetime, endDatetime, By.minute, region = Region.usa, handler = myHandler)
+    val future = client.stats(startDatetime, endDatetime, By.minute)
+    val future = client.stats(startDatetime, endDatetime, By.minute, region = Region.usa)
+    val future = client.stats(startDatetime, endDatetime, By.minute, region = Region.usa, handler = myHandler)
