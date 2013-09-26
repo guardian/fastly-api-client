@@ -18,8 +18,6 @@ SBT
 Configuring the client
 ----------------------
 
-Instantiate the client
-
     val client = FastlyAPIClient("my-fastly-api-key", "my-service-id")
     val client = FastlyAPIClient("my-fastly-api-key", "my-service-id", config = Some(asyncHttpClientConfig), proxy = Some(proxyToAccessTheWorld))
 
