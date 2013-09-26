@@ -1,15 +1,15 @@
-An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api) used to update/deploy to Fastly and query their stats API.
+An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api) used to deploy to or update your Fastly config, as well as query their stats API.
 
 [http://www.fastly.com/docs/api](http://www.fastly.com/docs/api)
 
 [http://www.fastly.com/docs/stats](http://www.fastly.com/docs/stats)
 
-Hosted on maven central.
+[http://search.maven.org/#browse|948553587](Hosted on maven central)
 
 SBT
 ---
 
-    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.0-SNAPSHOT"
+    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.0"
 
 
 Configuring the client
