@@ -67,4 +67,8 @@ Datacenter stats
 ----------------
     val future = client.stats(startDatetime, endDatetime, By.minute)
     val future = client.stats(startDatetime, endDatetime, By.hour, region = Region.usa)
-    val future = client.stats(startDatetime, endDatetime, By.day, region = Region.all, handler = myHandler)
+    val future = client.stats(startDatetime,
+                        endDatetime,
+                        By.day,
+                        region = Region.all,
+                        handler = myHandler)
