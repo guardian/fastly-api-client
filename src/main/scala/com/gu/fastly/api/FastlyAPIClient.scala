@@ -1,4 +1,4 @@
-package com.gu
+package com.gu.fastly.api
 
 import com.ning.http.client._
 import org.joda.time.DateTime

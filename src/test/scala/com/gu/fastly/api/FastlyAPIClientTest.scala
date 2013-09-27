@@ -1,4 +1,6 @@
-import com.gu.{By, Region, FastlyAPIClient}
+package com.gu.fastly.api
+
+import com.gu.fastly.api.{Region, By, FastlyAPIClient}
 
 import java.io.File
 import org.joda.time.DateTime

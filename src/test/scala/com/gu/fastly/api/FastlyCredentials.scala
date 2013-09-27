@@ -1,3 +1,5 @@
+package com.gu.fastly.api
+
 import java.io.File
 import scala.io.Source
 
