@@ -23,8 +23,8 @@ An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api) 
         <version>0.1.0</version>
     </dependency>
 
-Configuring the client
-----------------------
+
+## Configuring the client
 
 Use the default AsyncHttpClientConfig,
 
@@ -42,8 +42,8 @@ Set a proxy if needed,
                     "my-service-id",
                     proxy = Some(proxyToAccessTheWorld))
 
-Asynchronous calls
-------------------
+
+## Asynchronous calls
 
 All methods return a Future[Response] call *future.get* if you want to be synchronous and wait for the response.
 Or, to be asynchronous, pass an optional AsyncHandler to any method e.g.
@@ -52,16 +52,16 @@ Or, to be asynchronous, pass an optional AsyncHandler to any method e.g.
 
 This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating a new AsyncHandler or configuring your own AsyncHttpClientConfig.
 
-Examples
-========
 
-Purging
--------
+## Examples
+
+### Purging
+
     client.purge(url, handler = myHandler)
     client.purgeStatus(purgeId, handler = myHandler)
 
-Deploying
----------
+
+### Deploying
 
     client.versions(...) // find the active version
     client.versionClone(...) // clone the active version
@@ -71,8 +71,9 @@ Deploying
     client.versionValidate(...) // validate the cloned version
     client.versionActivate(...) // activate the cloned version
 
-Datacenter stats
-----------------
+
+### Datacenter stats
+
     client.stats(startDatetime, endDatetime, By.minute)
     client.stats(startDatetime, endDatetime, By.hour, region = Region.usa)
     client.stats(startDatetime,
