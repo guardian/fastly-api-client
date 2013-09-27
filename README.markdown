@@ -9,11 +9,19 @@ An asynchronous Scala client for Fastly's [API](http://www.fastly.com/docs/api) 
 
 [Released to maven central](http://search.maven.org/#browse|948553587)
 
-SBT
----
+## Installation
+
+### SBT
 
     libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.0"
 
+### Maven
+   
+   <dependency>
+	<groupId>com.gu</groupId>
+	<artifactId>fastly-api-client_2.10</artifactId>
+	<version>0.1.0</version>
+   </dependency>
 
 Configuring the client
 ----------------------
