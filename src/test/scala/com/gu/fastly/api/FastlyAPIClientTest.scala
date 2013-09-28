@@ -1,14 +1,12 @@
 package com.gu.fastly.api
 
-import com.gu.fastly.api.{Region, By, FastlyApiClient}
 
-import java.io.File
 import org.joda.time.DateTime
 import org.scalatest.FeatureSpec
 import org.scalatest.matchers._
 
 
-class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCredentials {
+class FastlyApiClientTest extends FeatureSpec with ShouldMatchers with FastlyCredentials {
 
   val client = FastlyApiClient(apiKey, serviceId)
 
@@ -74,7 +72,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
         to = DateTime.now,
         by = By.minute
       ).get
-//      println(response.getResponseBody)
+      //      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
 
@@ -95,13 +93,13 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
         by = By.minute,
         region = Region.all
       ).get
-//      println(response.getResponseBody)
+      //      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
 
     scenario("stats region list") {
       val response = client.statsRegions().get
-//      println(response.getResponseBody)
+      //      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
   }
@@ -109,7 +107,7 @@ class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
   feature("Servcie") {
     scenario("list") {
       val response = client.serviceList().get
-//            println(response.getResponseBody)
+      //            println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
   }
