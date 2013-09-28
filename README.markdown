@@ -63,7 +63,7 @@ This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/asyn
 
 ### Deploying
 
-    client.versions(...) // find the active version
+    client.versionList(...) // find the active version
     client.versionClone(...) // clone the active version
     client.vclDelete(...) // delete all the VCL files ready for the new ones
     client.vclUpload(...) // upload you new VCL files
