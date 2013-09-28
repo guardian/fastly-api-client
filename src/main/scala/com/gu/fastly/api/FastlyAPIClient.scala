@@ -7,7 +7,7 @@ import scala.language.implicitConversions
 
 // http://www.fastly.com/docs/api
 // http://www.fastly.com/docs/stats
-case class FastlyAPIClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
+case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
   private val fastlyAPIURL = "https://api.fastly.com"
   private val commonHeaders = Map("X-Fastly-Key" -> apiKey, "Accept" -> "application/json")

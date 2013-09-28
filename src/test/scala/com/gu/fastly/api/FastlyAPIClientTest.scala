@@ -1,6 +1,6 @@
 package com.gu.fastly.api
 
-import com.gu.fastly.api.{Region, By, FastlyAPIClient}
+import com.gu.fastly.api.{Region, By, FastlyApiClient}
 
 import java.io.File
 import org.joda.time.DateTime
@@ -10,7 +10,7 @@ import org.scalatest.matchers._
 
 class FastlyAPIClientTest extends FeatureSpec with ShouldMatchers with FastlyCredentials {
 
-  val client = FastlyAPIClient(apiKey, serviceId)
+  val client = FastlyApiClient(apiKey, serviceId)
 
   feature("stats") {
 
