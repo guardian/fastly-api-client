@@ -1,7 +1,7 @@
 Fastly API client
 =================
 
-An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://www.fastly.com/docs/api) used to deploy configs, update configs, decache objects and query the stats API.
+An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://www.fastly.com/docs/api), used to deploy and update configs, decache objects and query the stats API
 
 [http://www.fastly.com/docs/api](http://www.fastly.com/docs/api)
 
