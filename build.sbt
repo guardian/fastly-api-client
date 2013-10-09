@@ -7,10 +7,10 @@ version := "0.1.2"
 scalaVersion := "2.10.2"
 
 libraryDependencies ++= Seq(
-    "com.ning" % "async-http-client" % "1.7.20",
-    "joda-time" % "joda-time" % "2.0",
-    "org.joda" % "joda-convert" % "1.2",
-    "org.scalatest" %% "scalatest" % "1.9.1" % "test"
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
+  "joda-time" % "joda-time" % "2.0",
+  "org.joda" % "joda-convert" % "1.2",
+  "org.scalatest" %% "scalatest" % "1.9.2" % "test"
 )
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfixOps")

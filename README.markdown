@@ -1,7 +1,7 @@
 Fastly API client
 =================
 
-An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://www.fastly.com/docs/api), used to deploy and update configs, decache objects and query the stats API
+An asynchronous Scala client for [Fastly's API](http://www.fastly.com/docs/api), used to deploy and update configs, decache objects and query the stats API
 
 [http://www.fastly.com/docs/api](http://www.fastly.com/docs/api)
 
@@ -36,29 +36,21 @@ Or define your own AsyncHttpClientConfig,
                     "my-service-id",
                     config = Some(asyncHttpClientConfig))
 
-Set a proxy if needed,
-
-    val client = FastlyAPIClient("my-fastly-api-key",
-                    "my-service-id",
-                    proxy = Some(proxyToAccessTheWorld))
-
+Set a proxy in the AsyncHttpClientConfig if needed
 
 ## Asynchronous calls
 
-All methods return a Future[Response] call *future.get* if you want to be synchronous and wait for the response.
-Or, to be asynchronous, pass an optional AsyncHandler to any method e.g.
+All methods return a [Scala Future](http://docs.scala-lang.org/overviews/core/futures.html).
 
-    client.purge(url, handler = myHandler)
-
-This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating a new AsyncHandler or configuring your own AsyncHttpClientConfig.
+This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on configuring your own AsyncHttpClientConfig.
 
 
 ## Examples
 
 ### Purging
 
-    client.purge(url, handler = myHandler)
-    client.purgeStatus(purgeId, handler = myHandler)
+    client.purge(url)
+    client.purgeStatus(purgeId)
 
 
 ### Deploying
@@ -79,5 +71,4 @@ This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/asyn
     client.stats(startDatetime,
                         endDatetime,
                         By.day,
-                        region = Region.all,
-                        handler = myHandler)
+                        region = Region.all)

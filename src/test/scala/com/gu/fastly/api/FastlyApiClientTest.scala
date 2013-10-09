@@ -1,24 +1,27 @@
 package com.gu.fastly.api
 
-
 import org.joda.time.DateTime
-import org.scalatest.FeatureSpec
-import org.scalatest.matchers._
+import org.scalatest.{Matchers, FeatureSpec}
+import dispatch._
+import concurrent.Await
+import concurrent.duration._
 
-
-class FastlyApiClientTest extends FeatureSpec with ShouldMatchers with FastlyCredentials {
+class FastlyApiClientTest extends FeatureSpec with Matchers with FastlyCredentials {
 
   val client = FastlyApiClient(apiKey, serviceId)
 
-  feature("stats") {
+  implicit class EnrichedFuture[A](future: Future[A]) {
+    def get = Await.result(future, 5 seconds)
+  }
 
+  feature("stats") {
     scenario("stats") {
       val response = client.stats(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
         by = By.minute
       ).get
-      //      println(response.getResponseBody)
+
       assert(response.getStatusCode === 200)
     }
 
