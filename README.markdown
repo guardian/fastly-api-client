@@ -13,14 +13,14 @@ An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://
 
 ### SBT
 
-    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.2"
+    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.3"
 
 ### Maven
    
     <dependency>
         <groupId>com.gu</groupId>
         <artifactId>fastly-api-client_2.10</artifactId>
-        <version>0.1.2</version>
+        <version>0.1.3</version>
     </dependency>
 
 
@@ -28,17 +28,17 @@ An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://
 
 Use the default AsyncHttpClientConfig,
 
-    val client = FastlyAPIClient("my-fastly-api-key", "my-service-id")
+    val client = FastlyApiClient("my-fastly-api-key", "my-service-id")
 
 Or define your own AsyncHttpClientConfig,
 
-    val client = FastlyAPIClient("my-fastly-api-key",
+    val client = FastlyApiClient("my-fastly-api-key",
                     "my-service-id",
                     config = Some(asyncHttpClientConfig))
 
 Set a proxy if needed,
 
-    val client = FastlyAPIClient("my-fastly-api-key",
+    val client = FastlyApiClient("my-fastly-api-key",
                     "my-service-id",
                     proxy = Some(proxyToAccessTheWorld))
 
