@@ -51,12 +51,6 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders, handler = handler)
   }
 
-  // http://docs.fastly.com/docs/api#purge_4
-  def purgeStatus(purgeId: String, handler: Option[AsyncHandler[Response]] = None): Future[Response] = {
-    val apiUrl = "%s/purge".format(fastlyAPIURL)
-    AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders ++ Map("Accept" -> "*/*"), parameters = Map("id" -> purgeId), handler = handler)
-  }
-
   // http://docs.fastly.com/docs/api#version_2
   def versionCreate(handler: Option[AsyncHandler[Response]] = None): Future[Response] = {
     val apiUrl = "%s/service/%s/version".format(fastlyAPIURL, serviceId)

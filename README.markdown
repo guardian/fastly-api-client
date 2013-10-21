@@ -58,7 +58,6 @@ This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/asyn
 ### Purging
 
     client.purge(url, handler = myHandler)
-    client.purgeStatus(purgeId, handler = myHandler)
 
 
 ### Deploying
