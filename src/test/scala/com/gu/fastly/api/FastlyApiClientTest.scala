@@ -4,11 +4,13 @@ package com.gu.fastly.api
 import org.joda.time.DateTime
 import org.scalatest.FeatureSpec
 import org.scalatest.matchers._
+import com.typesafe.config.ConfigFactory
+import java.io.File
 
 
-class FastlyApiClientTest extends FeatureSpec with ShouldMatchers with FastlyCredentials {
+class FastlyApiClientTest extends FeatureSpec with ShouldMatchers {
 
-  val client = FastlyApiClient(apiKey, serviceId)
+  lazy val client = FastlyApiClient(conf.getString("apiKey"), conf.getString("serviceId"))
 
   feature("stats") {
 
@@ -112,4 +114,7 @@ class FastlyApiClientTest extends FeatureSpec with ShouldMatchers with FastlyCre
     }
   }
 
+  lazy val conf = ConfigFactory.parseFile(new File(
+    System.getProperty("user.home") + "/.fastlyapiclientcconfigbeta")
+  )
 }
