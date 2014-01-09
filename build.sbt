@@ -10,7 +10,8 @@ libraryDependencies ++= Seq(
     "com.ning" % "async-http-client" % "1.7.20",
     "joda-time" % "joda-time" % "2.0",
     "org.joda" % "joda-convert" % "1.2",
-    "org.scalatest" %% "scalatest" % "1.9.1" % "test"
+    "org.scalatest" %% "scalatest" % "1.9.1" % "test",
+    "com.typesafe" % "config" % "1.0.2" % "test"
 )
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfixOps")
