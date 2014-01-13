@@ -46,7 +46,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
   }
 
   // http://docs.fastly.com/docs/api#purge_3
-  def purge(url: String, extraHeaders: Map[String, String] = Map()): Future[Response] = {
+  def purge(url: String, extraHeaders: Map[String, String] = Map.empty): Future[Response] = {
     val apiUrl = "%s/purge/%s".format(fastlyAPIURL, url.stripPrefix("http://").stripPrefix("https://"))
     AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
   }
@@ -203,8 +203,8 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
     def execute(apiUrl: String,
                 method: HttpMethod = GET,
-                headers: Map[String, String] = Map(),
-                parameters: Map[String, String] = Map()) : Future[Response] = {
+                headers: Map[String, String] = Map.empty,
+                parameters: Map[String, String] = Map.empty) : Future[Response] = {
       val request = method match {
         case POST => client.preparePost(apiUrl)
         case PUT => client.preparePut(apiUrl)
@@ -225,7 +225,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       p.future
     }
 
-    private def build(request: AsyncHttpClient#BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map()) = {
+    private def build(request: AsyncHttpClient#BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map.empty) = {
 
       implicit def mapToFluentCaseInsensitiveStringsMap(headers: Map[String, String]): FluentCaseInsensitiveStringsMap = {
         val fluentCaseInsensitiveStringsMap = new FluentCaseInsensitiveStringsMap()
@@ -251,7 +251,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
         request.setParameters(parameters)
       }
 
-      if (headers.get("Host").isDefined) request.setVirtualHost(headers.get("Host").get)
+      headers.get("Host").map( h => request.setVirtualHost(h))
     }
   }
 
