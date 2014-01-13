@@ -55,7 +55,7 @@ If you want to block, you must use the Await.result construct, but I will shed a
 
 ### Purging
 
-    client.purge(url, handler = myHandler)
+    client.purge(url)
 
 
 ### Deploying
@@ -76,5 +76,4 @@ If you want to block, you must use the Await.result construct, but I will shed a
     client.stats(startDatetime,
                         endDatetime,
                         By.day,
-                        region = Region.all,
-                        handler = myHandler)
+                        region = Region.all)
