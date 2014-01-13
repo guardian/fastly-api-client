@@ -1,7 +1,7 @@
 Fastly API client
 =================
 
-An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://www.fastly.com/docs/api), used to deploy and update configs, decache objects and query the stats API
+An asynchronous Scala client for [Fastly's API](http://www.fastly.com/docs/api), used to deploy and update configs, decache objects and query the stats API
 
 [http://www.fastly.com/docs/api](http://www.fastly.com/docs/api)
 
@@ -13,14 +13,14 @@ An asynchronous Scala (and Java interoperable) client for [Fastly's API](http://
 
 ### SBT
 
-    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.1.3"
+    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.2.0"
 
 ### Maven
    
     <dependency>
         <groupId>com.gu</groupId>
         <artifactId>fastly-api-client_2.10</artifactId>
-        <version>0.1.3</version>
+        <version>0.2.0</version>
     </dependency>
 
 
@@ -36,6 +36,8 @@ Or define your own AsyncHttpClientConfig,
                     "my-service-id",
                     config = Some(asyncHttpClientConfig))
 
+This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for configuring your own AsyncHttpClientConfig.
+
 Set a proxy if needed,
 
     val client = FastlyApiClient("my-fastly-api-key",
@@ -45,13 +47,9 @@ Set a proxy if needed,
 
 ## Asynchronous calls
 
-All methods return a Future[Response] call *future.get* if you want to be synchronous and wait for the response.
-Or, to be asynchronous, pass an optional AsyncHandler to any method e.g.
+All methods return a scala.concurrent.Future[Response]
 
-    client.purge(url, handler = myHandler)
-
-This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for examples on creating a new AsyncHandler or configuring your own AsyncHttpClientConfig.
-
+If you want to block, you must use the Await.result construct, but I will shed a tear
 
 ## Examples
 
