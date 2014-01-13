@@ -6,11 +6,10 @@ import scala.concurrent.{Promise, Future}
 import scala.language.implicitConversions
 import scala.util.Success
 
-// http://www.fastly.com/docs/api
-// http://www.fastly.com/docs/stats
+// http://docs.fastly.com/api
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
-  private val fastlyAPIURL = "https://api.fastly.com"
+  private val fastlyApiUrl = "https://api.fastly.com"
   private val commonHeaders = Map("X-Fastly-Key" -> apiKey, "Accept" -> "application/json")
 
   sealed trait HttpMethod
@@ -19,9 +18,8 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
   object PUT extends HttpMethod
   object DELETE extends HttpMethod
 
-  // http://docs.fastly.com/docs/api#vcl_7
   def vclUpload(version: Int, vcl: String, id: String, name: String): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl"
     AsyncHttpExecutor.execute(
       apiUrl,
       POST,
@@ -30,154 +28,131 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     )
   }
 
-  // http://docs.fastly.com/docs/api#vcl_10
   def vclUpdate(version: Int, vcl: Map[String, String]): List[Future[Response]] = {
     vcl.map({
-      case (name, file) => {
-        val apiUrl = "%s/service/%s/version/%d/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
+      case (fileName, fileAsString) => {
+        val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl/$fileName"
         AsyncHttpExecutor.execute(
           apiUrl,
           PUT,
           headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
-          parameters = Map("content" -> file, "name" -> name)
+          parameters = Map("content" -> fileAsString, "name" -> fileName)
         )
       }
     }).toList
   }
 
-  // http://docs.fastly.com/docs/api#purge_3
-  def purge(url: String, extraHeaders: Map[String, String] = Map()): Future[Response] = {
-    val apiUrl = "%s/purge/%s".format(fastlyAPIURL, url.stripPrefix("http://").stripPrefix("https://"))
+  def purge(url: String, extraHeaders: Map[String, String] = Map.empty): Future[Response] = {
+    val urlWithoutPrefix = url.stripPrefix("http://").stripPrefix("https://")
+    val apiUrl = s"$fastlyApiUrl/purge/$urlWithoutPrefix"
     AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#version_2
   def versionCreate(): Future[Response] = {
-    val apiUrl = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version"
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#version_3
   def versionList(): Future[Response] = {
-    val apiUrl = "%s/service/%s/version".format(fastlyAPIURL, serviceId)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#version_5
   def versionActivate(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/activate".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/activate"
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#version_7
   def versionClone(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/clone".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/clone"
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"))
   }
 
-  // http://docs.fastly.com/docs/api#version_8
   def versionValidate(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%s/validate".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/validate"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#vcl_9
   def vclSetAsMain(version: Int, name: String): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/vcl/%s/main".format(fastlyAPIURL, serviceId, version, name)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl/$name/main"
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#vcl_1
   def vclList(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/vcl".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#vcl_8
   def vclDelete(version: Int, name: String): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%s/vcl/%s".format(fastlyAPIURL, serviceId, version, name)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl/$name"
     AsyncHttpExecutor.execute(apiUrl, DELETE, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#backend_1
   def backendCheckAll(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/backend/check_all".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/backend/check_all"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#backend_3
   def backendCreate(version: Int, id: String, address: String, port: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/backend"
     val params = Map("ipv4" -> address, "version" -> version.toString, "id" -> id, "port" -> port.toString, "service" -> serviceId)
     AsyncHttpExecutor.execute(apiUrl, POST, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/api#backend_4
   def backendList(version: Int): Future[Response] = {
-    val apiUrl = "%s/service/%s/version/%d/backend".format(fastlyAPIURL, serviceId, version)
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/backend"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/api#service_1
   def serviceList(): Future[Response] = {
-    val apiUrl = "%s/service".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/service"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  // http://docs.fastly.com/docs/stats#Range
-  // http://docs.fastly.com/docs/stats#Sample
-  // http://docs.fastly.com/docs/stats#Region
   def stats(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
-    val apiUrl = "%s/stats".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/stats"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats#Fields
   def statsWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, field: String): Future[Response] = {
-    val apiUrl = "%s/stats/field/%s".format(fastlyAPIURL, field)
+    val apiUrl = s"$fastlyApiUrl/stats/field/$field"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsAggregate(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
-    val apiUrl = "%s/stats/aggregate".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/stats/aggregate"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsForService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String): Future[Response] = {
-    val apiUrl = "%s/stats/service/%s".format(fastlyAPIURL, serviceId)
+    val apiUrl = s"$fastlyApiUrl/stats/service/$serviceId"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsForServiceWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String, field: String): Future[Response] = {
-    val apiUrl = "%s/stats/service/%s/field/%s".format(fastlyAPIURL, serviceId, field)
+    val apiUrl = s"$fastlyApiUrl/stats/service/$serviceId/field/$field"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsUsage(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
-    val apiUrl = "%s/stats/usage".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/stats/usage"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsUsageGroupedByService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
-    val apiUrl = "%s/stats/usage_by_service".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/stats/usage_by_service"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  // http://docs.fastly.com/docs/stats
   def statsRegions(): Future[Response] = {
-    val apiUrl = "%s/stats/regions".format(fastlyAPIURL)
+    val apiUrl = s"$fastlyApiUrl/stats/regions"
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
@@ -203,8 +178,8 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
     def execute(apiUrl: String,
                 method: HttpMethod = GET,
-                headers: Map[String, String] = Map(),
-                parameters: Map[String, String] = Map()) : Future[Response] = {
+                headers: Map[String, String] = Map.empty,
+                parameters: Map[String, String] = Map.empty) : Future[Response] = {
       val request = method match {
         case POST => client.preparePost(apiUrl)
         case PUT => client.preparePut(apiUrl)
@@ -213,9 +188,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       }
       build(request, headers, parameters)
 
-      proxyServer.map {
-        ps => request.setProxyServer(ps)
-      }
+      proxyServer.map(request.setProxyServer(_))
 
       val p = Promise[Response]()
       val handler = new AsyncCompletionHandler[Unit] {
@@ -225,7 +198,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       p.future
     }
 
-    private def build(request: AsyncHttpClient#BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map()) = {
+    private def build(request: AsyncHttpClient#BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map.empty) = {
 
       implicit def mapToFluentCaseInsensitiveStringsMap(headers: Map[String, String]): FluentCaseInsensitiveStringsMap = {
         val fluentCaseInsensitiveStringsMap = new FluentCaseInsensitiveStringsMap()
@@ -245,16 +218,14 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
       request.setHeaders(headers)
 
-      if (request.build().getMethod == "GET") {
-        request.setQueryParameters(parameters)
-      } else {
-        request.setParameters(parameters)
+      request.build().getMethod match {
+        case "GET" => request.setQueryParameters(parameters)
+        case _ => request.setParameters(parameters)
       }
 
-      if (headers.get("Host").isDefined) request.setVirtualHost(headers.get("Host").get)
+      headers.get("Host").map(h => request.setVirtualHost(h))
     }
   }
-
 }
 
 // constants for the stats API

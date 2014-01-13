@@ -1,6 +1,5 @@
 package com.gu.fastly.api
 
-
 import org.joda.time.DateTime
 import org.scalatest.FeatureSpec
 import org.scalatest.matchers._
@@ -8,7 +7,6 @@ import com.typesafe.config.ConfigFactory
 import java.io.File
 import scala.concurrent.Await
 import scala.concurrent.duration._
-
 
 class FastlyApiClientTest extends FeatureSpec with ShouldMatchers {
 
