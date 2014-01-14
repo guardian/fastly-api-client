@@ -1,7 +1,7 @@
 Fastly API client
 =================
 
-An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api), used to deploy and update configs, decache objects and query the stats API
+An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api) used to deploy and update configs, decache objects and query the stats API.
 
 [Released to maven central](http://search.maven.org/#browse|948553587)
 
@@ -34,7 +34,7 @@ Or define your own AsyncHttpClientConfig,
                     "my-service-id",
                     config = Some(asyncHttpClientConfig))
 
-This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for configuring your own AsyncHttpClientConfig. Don't worry, this is what [Dispatch Reboot](https://github.com/dispatch/reboot) uses too.
+This client uses the [HTTP Async Client](https://github.com/AsyncHttpClient/async-http-client), have a look there for configuring your own AsyncHttpClientConfig. This is what [Dispatch Reboot](https://github.com/dispatch/reboot) uses under the hood, too.
 
 Set a proxy if needed,
 
@@ -58,7 +58,7 @@ If you want to block, you must use the Await.result construct.
 
 ### Deploying
 
-This is the way Fastly recommended.
+This is the way Fastly recommend performing releases.
 
     client.versionList(...) // find the active version
     client.versionClone(...) // clone the active version
