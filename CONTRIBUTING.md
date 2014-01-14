@@ -3,8 +3,8 @@
 * Look at the [master branch](https://github.com/guardian/fastly-api-client/tree/master) to find the current release number
 * Create a branch for the next version number (if it doesn’t exist already)
 * Switch to your own feature branch based off the next release, do not develop against master
+* Don't forget to increment the release number in [build.sbt](https://github.com/guardian/fastly-api-client/blob/master/build.sbt) if you created a new release branch
 * Test what you can
-* Don't forget to increment the release number in [build.sbt](https://github.com/guardian/fastly-api-client/blob/master/build.sbt)
 * Think about using a snapshot to test your changes
 * Test the new release locally with,
 
