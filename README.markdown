@@ -5,6 +5,8 @@ An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api), use
 
 [Released to maven central](http://search.maven.org/#browse|948553587)
 
+[Release notes](https://github.com/guardian/fastly-api-client/releases)
+
 ## Installation
 
 ### SBT
@@ -75,11 +77,3 @@ This is the way Fastly recommended.
                         endDatetime,
                         By.day,
                         region = Region.all)
-
-## Release notes for 0.2.0
-
-* Now returns scala.concurrent.Future[Response] from all methods
-* No longer need to pass a handler to your method calls because the Future[Response] replaces this need
-* Removed call to purgeStatus method as this is no longer supported by Fastly
-* Using [Scala's String interpolation] (http://docs.scala-lang.org/overviews/core/string-interpolation.html)
-* Removed comments that point to HTML docs, as they are out of date
