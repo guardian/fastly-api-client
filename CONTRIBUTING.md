@@ -1,6 +1,6 @@
 ## How to contribute and perform a release
 
-You can find usful notes on releasing to maven [here](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+You can find useful notes on releasing to maven [here](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 )
 
 ### Creating a branch for the next release (if it doesn't already exist)
