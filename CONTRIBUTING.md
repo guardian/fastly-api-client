@@ -2,6 +2,7 @@
 
 You can find useful notes on releasing to maven [here](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 )
+You can find useful notes on configuring sbt to publish to maven [here](http://www.scala-sbt.org/release/docs/Community/Using-Sonatype.html)
 
 ### Creating a branch for the next release (if it doesn't already exist)
 * Look at the [master branch](https://github.com/guardian/fastly-api-client/tree/master) to find the current release number
@@ -21,7 +22,7 @@ You can find useful notes on releasing to maven [here](https://docs.sonatype.org
 
 ### Publishing to maven
 
-* Publish to [maven](http://search.maven.org/#browse|948553587) with the following (you will need a key and the password),
+* Publish to [maven](http://search.maven.org/#browse|948553587) with the following (you will need a key and a password),
 
 ```
     sbt publishSigned
