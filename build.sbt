@@ -1,8 +1,8 @@
+import SonatypeKeys._
+
 name := "fastly-api-client"
 
 organization := "com.gu"
-
-version := "0.2.2"
 
 scalaVersion := "2.11.4"
 
@@ -54,3 +54,10 @@ pomExtra := (
   </developers>
 )
 
+sonatypeSettings
+
+releaseSettings
+
+ReleaseKeys.crossBuild := true
+
+ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
