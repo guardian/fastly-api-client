@@ -1,29 +1,24 @@
-## How to contribute and perform a release
+## How to contribute and publish to maven
+
+
+### Contributing
+* Fork the repository
+* Create your own feature branch based off master
+* Raise a pull request
+
+```
+    sbt publishLocal
+```
+
+### Publishing to maven
 
 You can find useful notes on releasing to maven [here](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 )
 
 You can find useful notes on configuring sbt to publish to maven [here](http://www.scala-sbt.org/release/docs/Community/Using-Sonatype.html)
 
-### Creating a branch for the next release (if it doesn't already exist)
-* Look at the [master branch](https://github.com/guardian/fastly-api-client/tree/master) to find the current release number
-* Create a branch for the next release, e.g. 0.2.2
-* Increment the release number in [build.sbt](https://github.com/guardian/fastly-api-client/blob/master/build.sbt)
 
-### Contributing
-* Switch to your own feature branch based off the next release (do not branch from master)
-* Write tests
-* Test the new release locally using
-
-```
-    sbt publishLocal
-```
-
-* Raise a pull request (to merge into the release branch, e.g 0.2.2)
-
-### Publishing to maven
-
-* Publish to [maven](http://search.maven.org/#browse|948553587) with the following (you will need a key and a password),
+* This is how you publish to [maven](http://search.maven.org/#browse|948553587) - you will need a key and a password,
 
 ```
     sbt publishSigned
@@ -35,5 +30,3 @@ You can find useful notes on configuring sbt to publish to maven [here](http://w
 * Test the release using a real project which has the library as a dependency (you can do this using **sbt publishLocal**)
 * Merge the release branch into master
 * Create a [release on github](https://github.com/guardian/fastly-api-client/releases) to document the changes within the release
-* Create the next release branch
-
