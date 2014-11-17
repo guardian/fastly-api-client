@@ -13,8 +13,7 @@
 
 ### Publishing to maven
 
-You can find useful notes on releasing to maven [here](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-)
+You can find useful notes on releasing to maven [here](http://central.sonatype.org/pages/ossrh-guide.html)
 
 You can find useful notes on configuring sbt to publish to maven [here](http://www.scala-sbt.org/release/docs/Community/Using-Sonatype.html)
 
