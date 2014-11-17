@@ -115,6 +115,6 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
   }
 
   lazy val conf = ConfigFactory.parseFile(new File(
-    System.getProperty("user.home") + "/.fastlyapiclientcconfigbeta")
+    System.getProperty("user.home") + "/.config/fastly/fastlyApiClientTest")
   )
 }
