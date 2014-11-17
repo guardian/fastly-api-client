@@ -2,13 +2,13 @@ package com.gu.fastly.api
 
 import org.joda.time.DateTime
 import org.scalatest.FeatureSpec
-import org.scalatest.matchers._
+import org.scalatest.Matchers
 import com.typesafe.config.ConfigFactory
 import java.io.File
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class FastlyApiClientTest extends FeatureSpec with ShouldMatchers {
+class FastlyApiClientTest extends FeatureSpec with Matchers {
 
   lazy val client = FastlyApiClient(conf.getString("apiKey"), conf.getString("serviceId"))
 

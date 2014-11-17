@@ -1,16 +1,18 @@
+import SonatypeKeys._
+
 name := "fastly-api-client"
 
 organization := "com.gu"
 
-version := "0.2.2"
+scalaVersion := "2.11.4"
 
-scalaVersion := "2.10.3"
+crossScalaVersions := Seq("2.10.4", "2.11.4")
 
 libraryDependencies ++= Seq(
     "com.ning" % "async-http-client" % "1.7.22",
     "joda-time" % "joda-time" % "2.0",
     "org.joda" % "joda-convert" % "1.2",
-    "org.scalatest" %% "scalatest" % "1.9.1" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
     "com.typesafe" % "config" % "1.0.2" % "test"
 )
 
@@ -52,3 +54,10 @@ pomExtra := (
   </developers>
 )
 
+sonatypeSettings
+
+releaseSettings
+
+ReleaseKeys.crossBuild := true
+
+ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
