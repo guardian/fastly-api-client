@@ -1,4 +1,3 @@
-import SonatypeKeys._
 
 name := "fastly-api-client"
 

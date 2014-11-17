@@ -21,11 +21,9 @@ You can find useful notes on configuring sbt to publish to maven [here](http://w
 * This is how you publish to [maven](http://search.maven.org/#browse|948553587) - you will need a key and a password,
 
 ```
-    sbt publishSigned
+    sbt sonatypeRelease
 ```
 
-* Log into [sonatype](https://oss.sonatype.org/index.html)
-* [Close and release](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8a.ReleaseIt) the new version
 * Wait for up to two hours for it to appear
 * Test the release using a real project which has the library as a dependency (you can do this using **sbt publishLocal**)
 * Create a [release on github](https://github.com/guardian/fastly-api-client/releases) to document the changes within the release
