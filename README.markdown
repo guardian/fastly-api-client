@@ -11,16 +11,7 @@ An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api) used
 
 ### SBT
 
-    libraryDependencies += "com.gu" %% "fastly-api-client" % "0.2.2"
-
-### Maven
-   
-    <dependency>
-        <groupId>com.gu</groupId>
-        <artifactId>fastly-api-client_2.10</artifactId>
-        <version>0.2.2</version>
-    </dependency>
-
+    libraryDependencies += "com.gu" %% "fastly-api-client" % "latest version"
 
 ## Configuring the client
 
