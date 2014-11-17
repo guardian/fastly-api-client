@@ -5,7 +5,7 @@
 * Fork the repository
 * Create your own feature branch based off master
 * Raise a pull request
-* You can test you changes locally by using the following command
+* You can test your changes locally by using the following command
 
 ```
     sbt publishLocal
