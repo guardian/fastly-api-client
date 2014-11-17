@@ -30,7 +30,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
   def vclUpdate(version: Int, vcl: Map[String, String]): List[Future[Response]] = {
     vcl.map({
-      case (fileName, fileAsString) => {
+      case (fileName, fileAsString) =>
         val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl/$fileName"
         AsyncHttpExecutor.execute(
           apiUrl,
@@ -38,7 +38,6 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
           headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
           parameters = Map("content" -> fileAsString, "name" -> fileName)
         )
-      }
     }).toList
   }
 
@@ -193,7 +192,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       }
       build(request, headers, parameters)
 
-      proxyServer.map(request.setProxyServer(_))
+      proxyServer.map(request.setProxyServer)
 
       val p = Promise[Response]()
       val handler = new AsyncCompletionHandler[Unit] {
