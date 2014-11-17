@@ -21,6 +21,7 @@ You can find useful notes on configuring sbt to publish to maven [here](http://w
 * This is how you publish to [maven](http://search.maven.org/#browse|948553587) - you will need a key and a password,
 
 ```
+    sbt publishSigned
     sbt sonatypeRelease
 ```
 
