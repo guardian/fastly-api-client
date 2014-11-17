@@ -47,8 +47,9 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     val apiUrl = s"$fastlyApiUrl/purge/$urlWithoutPrefix"
     AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
   }
-  def purgeKey(service:String, key:String, extraHeaders: Map[String, String] = Map.empty) = {
-    val apiUrl = s"${fastlyApiUrl}/service/$service/purge/$key"
+
+  def purgeKey(key: String, extraHeaders: Map[String, String] = Map.empty): Future[Response] = {
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/purge/$key"
     AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
   }
 
