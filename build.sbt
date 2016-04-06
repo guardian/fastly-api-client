@@ -5,7 +5,7 @@ organization := "com.gu"
 
 scalaVersion := "2.11.4"
 
-crossScalaVersions := Seq("2.10.4", "2.11.4")
+crossScalaVersions := Seq("2.10.4", "2.11.8")
 
 libraryDependencies ++= Seq(
     "com.ning" % "async-http-client" % "1.8.14",
