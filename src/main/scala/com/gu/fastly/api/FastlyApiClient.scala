@@ -44,12 +44,12 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
   def purge(url: String, extraHeaders: Map[String, String] = Map.empty): Future[Response] = {
     val urlWithoutPrefix = url.stripPrefix("http://").stripPrefix("https://")
     val apiUrl = s"$fastlyApiUrl/purge/$urlWithoutPrefix"
-    AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
+    AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("Fastly-Key" -> apiKey) ++ extraHeaders)
   }
 
   def purgeKey(key: String, extraHeaders: Map[String, String] = Map.empty): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/service/$serviceId/purge/$key"
-    AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("X-Fastly-Key" -> apiKey) ++ extraHeaders)
+    AsyncHttpExecutor.execute(apiUrl, POST, headers = Map("Fastly-Key" -> apiKey) ++ extraHeaders)
   }
 
   def purgeAll(): Future[Response] = {
