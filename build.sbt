@@ -3,15 +3,15 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.12.2"
 
-crossScalaVersions := Seq("2.10.4", "2.11.8")
+crossScalaVersions := Seq(scalaVersion.value, "2.11.9")
 
 libraryDependencies ++= Seq(
     "com.ning" % "async-http-client" % "1.8.14",
     "joda-time" % "joda-time" % "2.5",
     "org.joda" % "joda-convert" % "1.7",
-    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
+    "org.scalatest" %% "scalatest" % "3.0.3" % "test",
     "com.typesafe" % "config" % "1.2.1" % "test"
 )
 
@@ -19,13 +19,12 @@ scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfi
 
 publishMavenStyle := true
 
-publishTo in ThisBuild <<= version { (v: String) =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at s"${nexus}content/repositories/snapshots")
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
   else
-    Some("releases"  at s"${nexus}service/local/staging/deploy/maven2")
-}
+    Opts.resolver.sonatypeStaging
+)
 
 publishArtifact in Test := false
 
@@ -53,10 +52,22 @@ pomExtra := (
   </developers>
 )
 
-sonatypeSettings
 
-releaseSettings
+import ReleaseTransformations._
 
-ReleaseKeys.crossBuild := true
+releaseCrossBuild := true
 
-ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  setNextVersion,
+  commitNextVersion,
+  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+  pushChanges
+)
