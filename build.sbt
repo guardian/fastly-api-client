@@ -17,6 +17,10 @@ libraryDependencies ++= Seq(
 
 scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfixOps")
 
+enablePlugins(BuildInfoPlugin)
+buildInfoKeys := Seq[BuildInfoKey](name, version)
+buildInfoPackage := "com.gu.fastly.api"
+
 publishMavenStyle := true
 
 publishTo := Some(

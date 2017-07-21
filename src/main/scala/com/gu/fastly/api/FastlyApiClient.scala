@@ -10,7 +10,7 @@ import scala.util.Success
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
 
   private val fastlyApiUrl = "https://api.fastly.com"
-  private val commonHeaders = Map("Fastly-Key" -> apiKey, "Accept" -> "application/json", "User-Agent" -> "fastly-scala")
+  private val commonHeaders = Map("Fastly-Key" -> apiKey, "Accept" -> "application/json", "User-Agent" -> s"fastly-scala-client-${BuildInfo.version}")
 
   sealed trait HttpMethod
   object GET extends HttpMethod
