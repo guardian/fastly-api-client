@@ -175,10 +175,10 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
   private object AsyncHttpExecutor {
 
     private lazy val defaultConfig = new AsyncHttpClientConfig.Builder()
-      .setAllowPoolingConnection(true)
-      .setMaximumConnectionsTotal(50)
+      .setAllowPoolingConnections(true)
+      .setMaxConnections(50)
       .setMaxRequestRetry(3)
-      .setRequestTimeoutInMs(20000)
+      .setRequestTimeout(20000)
       .build()
 
     private lazy val client = new AsyncHttpClient(config.getOrElse(defaultConfig))
@@ -226,10 +226,12 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       }
 
       request.setHeaders(headers)
+      import scala.collection.JavaConverters._
+      val params = parameters.toList.map{case (name, value) => new Param(name, value)}.asJava
 
       request.build().getMethod match {
-        case "GET" => request.setQueryParameters(parameters)
-        case _ => request.setParameters(parameters)
+        case "GET" => request.setQueryParams(params)
+        case _ => request.setQueryParams(params)
       }
 
       headers.get("Host").map(h => request.setVirtualHost(h))
