@@ -68,3 +68,11 @@ This is the way Fastly recommend performing releases.
                         endDatetime,
                         By.day,
                         region = Region.all)
+
+# Running the tests
+You'll need a config file at ~/.config/fastly/fastlyApiClientTest with these values:
+
+    serviceId=<ID of any fastly service>
+    apiKey=<api key with read-only access to above service>
+
+You may wish to create a service just for this purpose.
