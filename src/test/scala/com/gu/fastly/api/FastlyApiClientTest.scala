@@ -106,6 +106,16 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
     }
   }
 
+    // this test is useful for e.g. testing massive vcl uploads, but requires write credentials to fastly
+//  feature ("vcl") {
+//    scenario("upload vcl") {
+//      val vcl = s"vcl_fetch { set var.testVar= ${List.fill(200000)("a").mkString("")}  }"
+//      val response = Await.result(client.vclUpload(10,vcl ,"err", "error.vcl"), 10.seconds)
+//      println(response.getResponseBody)
+//      assert(response.getStatusCode === 200)
+//    }
+//  }
+
   feature("Servcie") {
     scenario("list") {
       val response = Await.result(client.serviceList(), 5.seconds)
