@@ -1,10 +1,13 @@
 package com.gu.fastly.api
 
-import com.ning.http.client._
+import org.asynchttpclient._
+import org.asynchttpclient.proxy.ProxyServer
 import org.joda.time.DateTime
-import scala.concurrent.{Promise, Future}
+
+import scala.concurrent.{Future, Promise}
 import scala.language.implicitConversions
 import scala.util.Success
+import org.asynchttpclient.Dsl._
 
 // http://docs.fastly.com/api
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
@@ -174,14 +177,13 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
   private object AsyncHttpExecutor {
 
-    private lazy val defaultConfig = new AsyncHttpClientConfig.Builder()
-      .setAllowPoolingConnections(true)
+    private lazy val defaultConfig = new DefaultAsyncHttpClientConfig.Builder()
       .setMaxConnections(50)
       .setMaxRequestRetry(3)
       .setRequestTimeout(20000)
       .build()
 
-    private lazy val client = new AsyncHttpClient(config.getOrElse(defaultConfig))
+    private lazy val client = asyncHttpClient(config.getOrElse(defaultConfig))
 
     def close() = client.close()
 
@@ -207,31 +209,20 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
       p.future
     }
 
-    private def build(request: AsyncHttpClient#BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map.empty) = {
+    private def build(request: BoundRequestBuilder, headers: Map[String, String], parameters: Map[String, String] = Map.empty) = {
 
-      implicit def mapToFluentCaseInsensitiveStringsMap(headers: Map[String, String]): FluentCaseInsensitiveStringsMap = {
-        val fluentCaseInsensitiveStringsMap = new FluentCaseInsensitiveStringsMap()
-        headers.foreach({
-          case (name: String, value: String) => fluentCaseInsensitiveStringsMap.add(name, value)
-        })
-        fluentCaseInsensitiveStringsMap
+      headers.foreach{
+        case (header, value) => request.addHeader(header,value)
       }
-
-      implicit def mapToFluentStringsMap(parameters: Map[String, String]): FluentStringsMap = {
-        val fluentStringsMap = new FluentStringsMap()
-        parameters.foreach({
-          case (name: String, value: String) => fluentStringsMap.add(name, value)
-        })
-        fluentStringsMap
-      }
-
-      request.setHeaders(headers)
-      import scala.collection.JavaConverters._
-      val params = parameters.toList.map{case (name, value) => new Param(name, value)}.asJava
 
       request.build().getMethod match {
-        case "GET" => request.setQueryParams(params)
-        case _ => request.setQueryParams(params)
+        case "GET" =>
+          import scala.collection.JavaConverters._
+          val params = parameters.toList.map{case (name, value) => new Param(name, value)}.asJava
+          request.setQueryParams(params)
+        case _ =>
+          val body = parameters.toList.map{case (name, value) => s"$name=$value"}.mkString("&")
+          request.setBody(body)
       }
 
       headers.get("Host").map(h => request.setVirtualHost(h))
