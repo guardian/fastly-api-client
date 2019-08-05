@@ -1,5 +1,7 @@
 package com.gu.fastly.api
 
+import java.net.URLEncoder
+
 import org.asynchttpclient._
 import org.asynchttpclient.proxy.ProxyServer
 import org.joda.time.DateTime
@@ -22,12 +24,13 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
   object DELETE extends HttpMethod
 
   def vclUpload(version: Int, vcl: String, id: String, name: String): Future[Response] = {
+    val encodedVCL = URLEncoder.encode(vcl, "UTF-8")
     val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl"
     AsyncHttpExecutor.execute(
       apiUrl,
       POST,
       headers = commonHeaders ++ Map("Content-Type" -> "application/x-www-form-urlencoded"),
-      parameters = Map("content" -> vcl, "name" -> name, "id" -> id)
+      parameters = Map("content" -> encodedVCL, "name" -> name, "id" -> id)
     )
   }
 
