@@ -1,20 +1,21 @@
 package com.gu.fastly.api
 
-import org.joda.time.DateTime
-import org.scalatest.FeatureSpec
-import org.scalatest.Matchers
 import com.typesafe.config.ConfigFactory
+import org.joda.time.DateTime
+import org.scalatest.featurespec.AnyFeatureSpec
+import org.scalatest.matchers.must.Matchers
+
 import java.io.File
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class FastlyApiClientTest extends FeatureSpec with Matchers {
+class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
   lazy val client = FastlyApiClient(conf.getString("apiKey"), conf.getString("serviceId"))
 
-  feature("stats") {
+  Feature("stats") {
 
-    scenario("stats") {
+    Scenario("stats") {
       val response = Await.result(client.stats(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -24,7 +25,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("stats with field filter") {
+    Scenario("stats with field filter") {
       val response = Await.result(client.statsWithFieldFilter(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -35,7 +36,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("aggregate") {
+    Scenario("aggregate") {
       val response = Await.result(client.statsAggregate(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -45,7 +46,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("service") {
+    Scenario("service") {
       val response = Await.result(client.statsForService(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -56,7 +57,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("service with field filter") {
+    Scenario("service with field filter") {
       val response = Await.result(client.statsForServiceWithFieldFilter(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -68,7 +69,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("usage") {
+    Scenario("usage") {
       val response = Await.result(client.statsUsage(
         from = DateTime.now.minusHours(1),
         to = DateTime.now,
@@ -78,7 +79,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("usage by grouped by service") {
+    Scenario("usage by grouped by service") {
       val response = Await.result(client.statsUsageGroupedByService(
         from = DateTime.now.minusHours(1),
         to = DateTime.now,
@@ -88,7 +89,7 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("regions") {
+    Scenario("regions") {
       val response = Await.result(client.stats(
         from = DateTime.now.minusMinutes(1),
         to = DateTime.now,
@@ -99,15 +100,15 @@ class FastlyApiClientTest extends FeatureSpec with Matchers {
       assert(response.getStatusCode === 200)
     }
 
-    scenario("stats region list") {
+    Scenario("stats region list") {
       val response = Await.result(client.statsRegions(), 5.seconds)
       //      println(response.getResponseBody)
       assert(response.getStatusCode === 200)
     }
   }
 
-  feature("Servcie") {
-    scenario("list") {
+  Feature("Servcie") {
+    Scenario("list") {
       val response = Await.result(client.serviceList(), 5.seconds)
       //            println(response.getResponseBody)
       assert(response.getStatusCode === 200)
