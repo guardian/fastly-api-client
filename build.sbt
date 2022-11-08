@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.4.2" % Test
 )
 
-ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps")
+ThisBuild / scalacOptions ++= Seq("-Xsource:3", "-deprecation", "-feature", "-language:postfixOps")
 
 enablePlugins(BuildInfoPlugin)
 buildInfoKeys := Seq[BuildInfoKey](name, version)
