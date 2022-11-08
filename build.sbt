@@ -5,7 +5,7 @@ organization := "com.gu"
 
 scalaVersion := "2.13.10"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.17")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.17", "3.2.1")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "2.12.3",
@@ -15,7 +15,11 @@ libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.4.2" % Test
 )
 
-ThisBuild / scalacOptions ++= Seq("-Xsource:3", "-deprecation", "-feature", "-language:postfixOps")
+ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps") ++
+  (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, _)) => Seq("-Xsource:3") // flags only needed in Scala 2
+    case _ => Seq.empty
+  })
 
 enablePlugins(BuildInfoPlugin)
 buildInfoKeys := Seq[BuildInfoKey](name, version)
