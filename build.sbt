@@ -3,19 +3,19 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.10"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.15")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.17")
 
 libraryDependencies ++= Seq(
-    "org.asynchttpclient" % "async-http-client" % "2.10.1",
-    "joda-time" % "joda-time" % "2.5",
-    "org.joda" % "joda-convert" % "1.7",
-    "org.scalatest" %% "scalatest" % "3.2.10" % "test",
-    "com.typesafe" % "config" % "1.2.1" % "test"
+    "org.asynchttpclient" % "async-http-client" % "2.12.3",
+    "joda-time" % "joda-time" % "2.12.1",
+    "org.joda" % "joda-convert" % "2.2.2",
+    "org.scalatest" %% "scalatest" % "3.2.14" % Test,
+    "com.typesafe" % "config" % "1.4.2" % Test
 )
 
-scalacOptions in ThisBuild ++= Seq("-deprecation", "-feature", "-language:postfixOps")
+ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps")
 
 enablePlugins(BuildInfoPlugin)
 buildInfoKeys := Seq[BuildInfoKey](name, version)
@@ -23,14 +23,9 @@ buildInfoPackage := "com.gu.fastly.api"
 
 publishMavenStyle := true
 
-publishTo := Some(
-  if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
-  else
-    Opts.resolver.sonatypeStaging
-)
+publishTo := sonatypePublishToBundle.value
 
-publishArtifact in Test := false
+Test / publishArtifact := false
 
 pomIncludeRepository := { _ => false }
 
@@ -69,9 +64,10 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  // For non cross-build projects, use releaseStepCommand("publishSigned")
+  releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommand("sonatypeBundleRelease"),
   setNextVersion,
   commitNextVersion,
-  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
   pushChanges
 )
