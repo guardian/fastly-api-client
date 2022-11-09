@@ -3,6 +3,8 @@ Fastly API client
 
 An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api) used to deploy and update configs, decache objects and query the stats API.
 
+[![fastly-api-client Scala version support](https://index.scala-lang.org/guardian/fastly-api-client/fastly-api-client/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/fastly-api-client/fastly-api-client)
+
 [Released to maven central](http://search.maven.org/#search%7Cga%7C1%7Cfastly-api-client)
 
 [Release notes](https://github.com/guardian/fastly-api-client/releases)
