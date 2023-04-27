@@ -1,6 +1,6 @@
 package com.gu.fastly.api
 
-import com.typesafe.config.ConfigFactory
+import com.typesafe.config.{ConfigException, ConfigFactory}
 import org.joda.time.DateTime
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.matchers.must.Matchers
@@ -117,13 +117,19 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
   Feature("Package") {
     Scenario("upload package") {
-      val path = conf.getString("packagePath")
-      // Make sure this version isn't locked, or else the Fastly API will return a 422 response
-      val versionId = conf.getString("packageVersionId").toInt
-      val response = Await.result(client.packageUpload(client.serviceId, versionId, path), 5.seconds)
+      try {
+        val path = conf.getString("packagePath")
+        // Make sure this version isn't locked, or else the Fastly API will return a 422 response
+        val versionId = conf.getInt("packageVersionId")
 
-      //      println(response.getResponseBody)
-      assert(response.getStatusCode === 200)
+        val response = Await.result(client.packageUpload(client.serviceId, versionId, path), 5.seconds)
+        //      println(response.getResponseBody)
+        assert(response.getStatusCode === 200)
+      }
+      catch {
+        case _: ConfigException.Missing =>
+          cancel("packagePath and/or packageVersionId are missing from your config file")
+      }
     }
   }
 
