@@ -121,8 +121,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
         val path = conf.getString("packagePath")
         // Make sure this version isn't locked, or else the Fastly API will return a 422 response
         val versionId = conf.getInt("packageVersionId")
-
-        val response = Await.result(client.packageUpload(client.serviceId, versionId, path), 5.seconds)
+        val `package` = new File(path)
+        val response = Await.result(client.packageUpload(client.serviceId, versionId, `package`), 5.seconds)
         //      println(response.getResponseBody)
         assert(response.getStatusCode === 200)
       }
