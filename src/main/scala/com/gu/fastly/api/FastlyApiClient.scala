@@ -123,6 +123,22 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
+  /**
+   * Update an existing version with a comment that will appear in the Fastly web interface.
+   * Endpoint: PUT /service/:service_id/version/:version
+   * Official documentation: https://developer.fastly.com/reference/api/services/version/
+   *
+   * @param version Integer identifying a service version.
+   * @param comment A freeform descriptive note. This will appear in the service summary.
+   * @return
+   */
+  def versionComment(version: Int, comment: String): Future[Response] = {
+    val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version"
+    val headers = Map("Content-Type" -> "application/x-www-form-urlencoded")
+    val params = Map("comment" -> comment)
+    AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders ++ headers, parameters = params)
+  }
+
   def vclSetAsMain(version: Int, name: String): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/service/$serviceId/version/$version/vcl/$name/main"
     AsyncHttpExecutor.execute(apiUrl, PUT, headers = commonHeaders)
