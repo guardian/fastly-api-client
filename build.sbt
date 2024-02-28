@@ -5,7 +5,7 @@ organization := "com.gu"
 
 scalaVersion := "2.13.10"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.17", "3.2.1")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.19", "3.2.1")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "2.12.3" exclude("io.netty", "netty-codec"),
