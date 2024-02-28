@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
     "joda-time" % "joda-time" % "2.12.1",
     "org.joda" % "joda-convert" % "2.2.2",
     "org.scalatest" %% "scalatest" % "3.2.14" % Test,
-    "com.typesafe" % "config" % "1.4.2" % Test
+    "com.typesafe" % "config" % "1.4.3" % Test
 )
 
 ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps") ++
