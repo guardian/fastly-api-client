@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "2.12.3" exclude("io.netty", "netty-codec"),
     "io.netty" % "netty-codec" % "4.1.107.Final",
     "joda-time" % "joda-time" % "2.12.7",
-    "org.joda" % "joda-convert" % "2.2.2",
+    "org.joda" % "joda-convert" % "2.2.3",
     "org.scalatest" %% "scalatest" % "3.2.14" % Test,
     "com.typesafe" % "config" % "1.4.3" % Test
 )
