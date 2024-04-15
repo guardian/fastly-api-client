@@ -11,7 +11,11 @@ import scala.concurrent.duration._
 
 class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
-  lazy val client = FastlyApiClient(conf.getString("apiKey"), conf.getString("serviceId"))
+
+  lazy val apiKey = sys.env.getOrElse("API_KEY", conf.getString("apiKey"))
+  lazy val serviceId = sys.env.getOrElse("SERVICE_ID", conf.getString("serviceId"))
+
+  lazy val client = FastlyApiClient(apiKey, serviceId)
 
   Feature("stats") {
 
