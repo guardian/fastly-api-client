@@ -3,7 +3,7 @@
 
 ### Contributing
 * Fork the repository
-* Create your own feature branch based off master
+* Create your own feature branch based off main
 * Raise a pull request
 * You can test your changes locally by using the following command
 
@@ -15,7 +15,7 @@
 
 [Guardian doc on publishing to maven and sonatype](https://docs.google.com/document/d/1rNXjoZDqZMsQblOVXPAIIOMWuwUKe3KzTCttuqS7AcY/edit#)
 
-Merge the pull request before publishing to maven and then publish from the master branch.
+Merge the pull request before publishing to maven and then publish from the main branch.
 
 You can find useful notes on releasing to maven [here](http://central.sonatype.org/pages/ossrh-guide.html)
 
