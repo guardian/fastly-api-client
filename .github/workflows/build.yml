@@ -1,0 +1,28 @@
+name: build
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '11'
+          cache: 'sbt'
+
+      - name: Build
+        env:
+          API_KEY: ${{ secrets.FASTLY_TOKEN_API_KEY }}
+          SERVICE_ID: ${{ secrets.FASTLY_TOKEN_SERVICE_ID }}
+        run: |
+          ./scripts/build.sh
