@@ -3,9 +3,9 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "2.13.14"
+scalaVersion := "3.3.3"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.19", "3.3.3")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.19", "2.13.14", "3.3.3")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "2.12.3" exclude("io.netty", "netty-codec"),
