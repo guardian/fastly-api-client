@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.4.3" % Test
 )
 
-ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps") ++
+ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release", "11") ++
   (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, _)) => Seq("-Xsource:3") // flags only needed in Scala 2
     case _ => Seq.empty
