@@ -275,7 +275,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
 
       request.build().getMethod match {
         case "GET" =>
-          import scala.collection.JavaConverters._
+          import scala.jdk.CollectionConverters.*
           val params = parameters.toList.map{case (name, value) => new Param(name, value)}.asJava
           request.setQueryParams(params)
         case _ =>
