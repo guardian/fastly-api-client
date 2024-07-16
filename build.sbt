@@ -9,7 +9,7 @@ crossScalaVersions := Seq(scalaVersion.value, "2.12.19", "3.2.2")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "2.12.3" exclude("io.netty", "netty-codec"),
-    "io.netty" % "netty-codec" % "4.1.107.Final",
+    "io.netty" % "netty-codec" % "4.1.111.Final",
     "joda-time" % "joda-time" % "2.12.7",
     "org.joda" % "joda-convert" % "2.2.3",
     "org.scalatest" %% "scalatest" % "3.2.18" % Test,
