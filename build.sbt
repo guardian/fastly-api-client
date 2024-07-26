@@ -18,13 +18,7 @@ libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.4.3" % Test
 )
 
-val sonatypeReleaseSettings = Seq(
-  licenses := Seq("Apache V2" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")),
-  releaseVersion := fromAggregatedAssessedCompatibilityWithLatestRelease().value,
-  releaseCrossBuild := true,
-)
-
-ThisBuild / scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
+scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
   (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, _)) => Seq("-Xsource:3") // flags only needed in Scala 2
     case _ => Seq.empty
@@ -35,6 +29,10 @@ buildInfoKeys := Seq[BuildInfoKey](name, version)
 buildInfoPackage := "com.gu.fastly.api"
 
 import ReleaseTransformations._
+
+licenses := Seq(License.Apache2)
+releaseVersion := fromAggregatedAssessedCompatibilityWithLatestRelease().value
+releaseCrossBuild := true
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
