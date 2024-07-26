@@ -5,9 +5,7 @@ An asynchronous Scala client for [Fastly's API](http://docs.fastly.com/api) used
 
 [![fastly-api-client Scala version support](https://index.scala-lang.org/guardian/fastly-api-client/fastly-api-client/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/fastly-api-client/fastly-api-client)
 
-[Released to maven central](http://search.maven.org/#search%7Cga%7C1%7Cfastly-api-client)
-
-[Release notes](https://github.com/guardian/fastly-api-client/releases)
+[![Release](https://github.com/guardian/fastly-api-client/actions/workflows/release.yml/badge.svg)](https://github.com/guardian/fastly-api-client/actions/workflows/release.yml)
 
 ## Installation
 
@@ -78,3 +76,10 @@ You'll need a config file at ~/.config/fastly/fastlyApiClientTest with these val
     apiKey=<api key with read-only access to above service>
 
 You may wish to create a service just for this purpose.
+
+
+# Publishing a new release
+
+This repo uses [`gha-scala-library-release-workflow`](https://github.com/guardian/gha-scala-library-release-workflow)
+to automate publishing releases (both full & preview releases) - see
+[**Making a Release**](https://github.com/guardian/gha-scala-library-release-workflow/blob/main/docs/making-a-release.md).
