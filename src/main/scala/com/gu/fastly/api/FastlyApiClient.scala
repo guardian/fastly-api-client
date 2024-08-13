@@ -3,16 +3,17 @@ package com.gu.fastly.api
 import java.net.URLEncoder
 import java.io.File
 import java.nio.charset.StandardCharsets
-
-import org.asynchttpclient._
+import org.asynchttpclient.*
 import org.asynchttpclient.proxy.ProxyServer
 import org.joda.time.DateTime
 
 import scala.concurrent.{Future, Promise}
 import scala.language.implicitConversions
 import scala.util.Success
-import org.asynchttpclient.Dsl._
+import org.asynchttpclient.Dsl.*
 import org.asynchttpclient.request.body.multipart.{FilePart, Part}
+
+import java.time.Duration
 
 // http://docs.fastly.com/api
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
@@ -234,7 +235,7 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     private lazy val defaultConfig = new DefaultAsyncHttpClientConfig.Builder()
       .setMaxConnections(50)
       .setMaxRequestRetry(3)
-      .setRequestTimeout(20000)
+      .setRequestTimeout(Duration.ofMillis(20000))
       .build()
 
     private lazy val client = asyncHttpClient(config.getOrElse(defaultConfig))
