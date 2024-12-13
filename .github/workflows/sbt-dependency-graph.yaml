@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - sbt-dependency-graph-1e76786dae9fadfb
   workflow_dispatch: 
 jobs:
   dependency-graph:
