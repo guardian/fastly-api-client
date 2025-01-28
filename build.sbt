@@ -4,15 +4,15 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "3.3.3"
+scalaVersion := "3.3.4"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.19", "2.13.14")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.20", "2.13.15")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.1" exclude("io.netty", "netty-codec"),
-    "io.netty" % "netty-codec" % "4.1.112.Final",
-    "joda-time" % "joda-time" % "2.12.7",
-    "org.joda" % "joda-convert" % "2.2.3",
+    "io.netty" % "netty-codec" % "4.1.115.Final",
+    "joda-time" % "joda-time" % "2.13.0",
+    "org.joda" % "joda-convert" % "2.2.4",
     "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     "com.typesafe" % "config" % "1.4.3" % Test
