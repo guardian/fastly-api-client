@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
     "io.netty" % "netty-codec" % "4.1.117.Final",
     "joda-time" % "joda-time" % "2.13.0",
     "org.joda" % "joda-convert" % "3.0.1",
-    "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
+    "org.scala-lang.modules" %% "scala-collection-compat" % "2.13.0",
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     "com.typesafe" % "config" % "1.4.3" % Test
 )
