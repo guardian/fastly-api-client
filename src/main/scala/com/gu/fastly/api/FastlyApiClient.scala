@@ -5,7 +5,6 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 import org.asynchttpclient.*
 import org.asynchttpclient.proxy.ProxyServer
-import org.joda.time.DateTime
 
 import scala.concurrent.{Future, Promise}
 import scala.language.implicitConversions
@@ -13,7 +12,7 @@ import scala.util.Success
 import org.asynchttpclient.Dsl.*
 import org.asynchttpclient.request.body.multipart.{FilePart, Part}
 
-import java.time.Duration
+import java.time.{Duration, Instant}
 
 // http://docs.fastly.com/api
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
@@ -176,43 +175,43 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  def stats(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
+  def stats(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, field: String): Future[Response] = {
+  def statsWithFieldFilter(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all, field: String): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/field/$field"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsAggregate(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
+  def statsAggregate(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/aggregate"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsForService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String): Future[Response] = {
+  def statsForService(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all, serviceId: String): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/service/$serviceId"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsForServiceWithFieldFilter(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all, serviceId: String, field: String): Future[Response] = {
+  def statsForServiceWithFieldFilter(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all, serviceId: String, field: String): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/service/$serviceId/field/$field"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsUsage(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
+  def statsUsage(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/usage"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
-  def statsUsageGroupedByService(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
+  def statsUsageGroupedByService(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats/usage_by_service"
     val params = statsParams(from, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
@@ -223,9 +222,9 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  private def statsParams(from: DateTime, to: DateTime, by: By.Value, region: Region.Value = Region.all): Map[String, String] = {
-    def millis(date: DateTime): String = (date.getMillis / 1000).toString
-    Map[String, String]("from" -> millis(from), "to" -> millis(to), "by" -> by.toString, "region" -> region.toString)
+  private def statsParams(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Map[String, String] = {
+    def seconds(date: Instant): String = date.getEpochSecond.toString
+    Map[String, String]("from" -> seconds(from), "to" -> seconds(to), "by" -> by.toString, "region" -> region.toString)
   }
 
   def closeConnectionPool() = AsyncHttpExecutor.close()
