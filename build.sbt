@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.2",
     "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-    "com.typesafe" % "config" % "1.4.3" % Test
+    "com.typesafe" % "config" % "1.4.4" % Test
 )
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
