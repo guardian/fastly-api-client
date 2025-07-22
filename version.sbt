@@ -1,1 +1,1 @@
-ThisBuild / version := "1.0.4-SNAPSHOT"
+ThisBuild / version := "2.0.0-PREVIEW.test-binary-incompat-change.2025-07-22T1635.a53b1744"
