@@ -1,14 +1,13 @@
 package com.gu.fastly.api
 
 import com.typesafe.config.{ConfigException, ConfigFactory}
+import org.joda.time.DateTime
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.matchers.must.Matchers
 
 import java.io.File
-import java.time.Instant
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import java.time.temporal.ChronoUnit.{HOURS, MINUTES}
 
 class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
@@ -22,8 +21,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("stats") {
       val response = Await.result(client.stats(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute
       ), 5.seconds)
       //      println(response.getResponseBody)
@@ -32,8 +31,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("stats with field filter") {
       val response = Await.result(client.statsWithFieldFilter(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute,
         field = "hit_ratio"
       ), 5.seconds)
@@ -43,8 +42,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("aggregate") {
       val response = Await.result(client.statsAggregate(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute
       ), 5.seconds)
       //      println(response.getResponseBody)
@@ -53,8 +52,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("service") {
       val response = Await.result(client.statsForService(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute,
         serviceId = client.serviceId
       ), 5.seconds)
@@ -64,8 +63,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("service with field filter") {
       val response = Await.result(client.statsForServiceWithFieldFilter(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute,
         serviceId = client.serviceId,
         field = "hit_ratio"
@@ -76,8 +75,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("usage") {
       val response = Await.result(client.statsUsage(
-        from = Instant.now.minus(1, HOURS),
-        to = Instant.now,
+        from = DateTime.now.minusHours(1),
+        to = DateTime.now,
         by = By.minute
       ), 5.seconds)
       //      println(response.getResponseBody)
@@ -86,8 +85,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("usage by grouped by service") {
       val response = Await.result(client.statsUsageGroupedByService(
-        from = Instant.now.minus(1, HOURS),
-        to = Instant.now,
+        from = DateTime.now.minusHours(1),
+        to = DateTime.now,
         by = By.minute
       ), 5.seconds)
       //      println(response.getResponseBody)
@@ -96,8 +95,8 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("regions") {
       val response = Await.result(client.stats(
-        from = Instant.now.minus(1, MINUTES),
-        to = Instant.now,
+        from = DateTime.now.minusMinutes(1),
+        to = DateTime.now,
         by = By.minute,
         region = Region.all
       ), 5.seconds)
