@@ -13,6 +13,7 @@ import org.asynchttpclient.Dsl.*
 import org.asynchttpclient.request.body.multipart.{FilePart, Part}
 
 import java.time.{Duration, Instant}
+import java.util.Date
 
 // http://docs.fastly.com/api
 case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[AsyncHttpClientConfig] = None, proxyServer: Option[ProxyServer] = None) {
@@ -175,9 +176,9 @@ case class FastlyApiClient(apiKey: String, serviceId: String, config: Option[Asy
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders)
   }
 
-  def stats(from: Instant, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
+  def stats(from: Date, to: Instant, by: By.Value, region: Region.Value = Region.all): Future[Response] = {
     val apiUrl = s"$fastlyApiUrl/stats"
-    val params = statsParams(from, to, by, region)
+    val params = statsParams(from.toInstant, to, by, region)
     AsyncHttpExecutor.execute(apiUrl, headers = commonHeaders, parameters = params)
   }
 
