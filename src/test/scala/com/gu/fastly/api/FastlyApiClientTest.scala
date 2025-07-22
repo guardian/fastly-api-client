@@ -7,8 +7,9 @@ import org.scalatest.matchers.must.Matchers
 import java.io.File
 import java.time.Instant
 import scala.concurrent.Await
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import java.time.temporal.ChronoUnit.{HOURS, MINUTES}
+import java.util.Date
 
 class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
@@ -22,7 +23,7 @@ class FastlyApiClientTest extends AnyFeatureSpec with Matchers {
 
     Scenario("stats") {
       val response = Await.result(client.stats(
-        from = Instant.now.minus(1, MINUTES),
+        from = Date.from(Instant.now.minus(1, MINUTES)),
         to = Instant.now,
         by = By.minute
       ), 5.seconds)
