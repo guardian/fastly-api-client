@@ -4,15 +4,15 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "3.3.4"
+scalaVersion := "3.3.6"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.20", "2.13.15")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.20", "2.13.16")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.2",
-    "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
+    "org.scala-lang.modules" %% "scala-collection-compat" % "2.13.0",
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
-    "com.typesafe" % "config" % "1.4.3" % Test
+    "com.typesafe" % "config" % "1.4.4" % Test
 )
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
