@@ -1,4 +1,4 @@
-import sbtversionpolicy.withsbtrelease.ReleaseVersion.fromAggregatedAssessedCompatibilityWithLatestRelease
+import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 name := "fastly-api-client"
 
@@ -28,7 +28,7 @@ buildInfoPackage := "com.gu.fastly.api"
 import ReleaseTransformations._
 
 licenses := Seq(License.Apache2)
-releaseVersion := fromAggregatedAssessedCompatibilityWithLatestRelease().value
+releaseVersion := ReleaseVersion.fromAssessedCompatibilityWithLatestRelease().value
 releaseCrossBuild := true
 
 releaseProcess := Seq[ReleaseStep](
