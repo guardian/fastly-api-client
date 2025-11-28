@@ -4,7 +4,7 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "3.3.6"
+scalaVersion := "3.3.7"
 
 crossScalaVersions := Seq(scalaVersion.value, "2.12.20", "2.13.18")
 
