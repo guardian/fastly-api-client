@@ -6,11 +6,10 @@ organization := "com.gu"
 
 scalaVersion := "3.3.7"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.20", "2.13.18")
+crossScalaVersions := Seq(scalaVersion.value, "2.13.18")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.4",
-    "org.scala-lang.modules" %% "scala-collection-compat" % "2.14.0",
     "org.scalatest" %% "scalatest" % "3.2.19" % Test,
     "com.typesafe" % "config" % "1.4.5" % Test
 )
