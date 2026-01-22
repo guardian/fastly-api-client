@@ -6,7 +6,7 @@ organization := "com.gu"
 
 scalaVersion := "3.3.7"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.13.18")
+crossScalaVersions := Seq(scalaVersion.value, "3.8.1")
 
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.6",
