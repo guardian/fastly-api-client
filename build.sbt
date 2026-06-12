@@ -11,7 +11,7 @@ crossScalaVersions := Seq(scalaVersion.value, "2.13.18")
 libraryDependencies ++= Seq(
     "org.asynchttpclient" % "async-http-client" % "3.0.10",
     "org.scalatest" %% "scalatest" % "3.2.20" % Test,
-    "com.typesafe" % "config" % "1.4.8" % Test
+    "com.typesafe" % "config" % "1.4.9" % Test
 )
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
