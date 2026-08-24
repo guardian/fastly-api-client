@@ -9,7 +9,7 @@ scalaVersion := "3.3.8"
 crossScalaVersions := Seq(scalaVersion.value, "2.13.18")
 
 libraryDependencies ++= Seq(
-    "org.asynchttpclient" % "async-http-client" % "3.0.12",
+    "org.asynchttpclient" % "async-http-client" % "3.0.13",
     "org.scalatest" %% "scalatest" % "3.2.20" % Test,
     "com.typesafe" % "config" % "1.4.9" % Test
 )
