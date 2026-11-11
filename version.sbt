@@ -1,1 +1,1 @@
-ThisBuild / version := "8.0.1-SNAPSHOT"
+ThisBuild / version := "8.1.0-PREVIEW.updatescala3-library-390.2026-11-11T1107.97758822"
