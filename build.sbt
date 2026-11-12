@@ -4,7 +4,7 @@ name := "fastly-api-client"
 
 organization := "com.gu"
 
-scalaVersion := "3.3.9"
+scalaVersion := "3.9.0"
 
 crossScalaVersions := Seq(scalaVersion.value, "2.13.18")
 
@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
     "com.typesafe" % "config" % "1.4.9" % Test
 )
 
-scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:11") ++
+scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps", "-release:21") ++
   (CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, _)) => Seq("-Xsource:3") // flags only needed in Scala 2
     case _ => Seq.empty
